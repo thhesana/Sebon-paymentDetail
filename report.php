@@ -13,7 +13,10 @@ WITH PayeeConcat AS (
         t.PaymentDetailGroupId,
         p.payeeDetailName,
         t.amount,
-        ROW_NUMBER() OVER (PARTITION BY t.PaymentDetailGroupId ORDER BY t.PaytransactionDetail_id) AS rn
+        ROW_NUMBER() OVER (
+            PARTITION BY t.PaymentDetailGroupId
+            ORDER BY t.PaytransactionDetail_id
+        ) AS rn
     FROM [PaymentDetail].[dbo].[PaytransactionDetail] t
     JOIN [PaymentDetail].[dbo].[payeeDetail] p
         ON t.payeeDetail_id = p.payeeDetail_id

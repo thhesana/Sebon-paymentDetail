@@ -26,8 +26,13 @@ JOIN [PaymentDetail].[dbo].[payeeDetail] p
     ON t.payeeDetail_id = p.payeeDetail_id
 LEFT JOIN [PaymentDetail].[dbo].[payeeBankdetail] b
     ON p.payeeBankdetail_id = b.payeeBankdetail_id
+LEFT JOIN [Employee Insurance Detail ].[dbo].[empinfo_rank] r
+    ON p.Empcode = r.emp_code
 WHERE t.PaymentDetailGroupId = ?
-ORDER BY t.PaytransactionDetail_id
+ORDER BY
+    CASE WHEN r.emp_rank IS NULL THEN 1 ELSE 0 END,
+    r.emp_rank,
+    t.PaytransactionDetail_id
 ";
 
 $params = [$groupId];
